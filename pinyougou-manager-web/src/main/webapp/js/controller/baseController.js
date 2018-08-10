@@ -3,7 +3,7 @@ app.controller('baseController' ,function($scope){
 
 
     //分页控件配置
-    $scope.pagenationConf = {
+    $scope.paginationConf = {
         currentPage: 1,
         totalItems: 10,
         itemsPerPage: 5,
@@ -29,7 +29,7 @@ app.controller('baseController' ,function($scope){
     $scope.searchEntity = {};
 
     $scope.reloadList = function () {
-        $scope.search($scope.pagenationConf.currentPage, $scope.pagenationConf.itemsPerPage, $scope.searchEntity);
+        $scope.search($scope.paginationConf.currentPage, $scope.paginationConf.itemsPerPage, $scope.searchEntity);
     };
 
 

@@ -15,7 +15,8 @@
     </plugins>
 
     <mappers>
-        <mapper resource="mapper/TbBrandMapper.xml"></mapper>
+        <!--<mapper resource="mapper/TbBrandMapper.xml"></mapper>-->
+        <package name="com.pinyougou.mapper"></package>
     </mappers>
 
 </configuration>

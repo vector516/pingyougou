@@ -70,7 +70,7 @@ app.controller('brandController', function ($scope, $controller, brandService) {
         brandService.searchBrand(page, rows, eleAaa).success(
             function (response) {
                 $scope.list = response.rows;
-                $scope.pagenationConf.totalItems = response.total;
+                $scope.paginationConf.totalItems = response.total;
             }
         )
     }

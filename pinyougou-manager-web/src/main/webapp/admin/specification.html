@@ -71,19 +71,19 @@
 			                          </tr>
 			                      </thead>
 			                      <tbody>
-			                          <tr >
+			                          <tr ng-repeat="entity in list">
 			                              <td><input  type="checkbox" ></td>			                              
 				                          <td>{{entity.id}}</td>
 									      <td>{{entity.specName}}</td>
 		                                  <td class="text-center">                                           
-		                                 	  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal">修改</button>                                           
-		                                  </td>
+		                                 	  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" ng-click="findOne(entity.id)" data-target="#editModal">修改</button>
+										  </td>
 			                          </tr>
 			                      </tbody>
 								  <!-- 分页 -->
 			                  </table>
 							<!--分页组件-->
-							<tm-pagination conf="pagenationConf"></tm-pagination>
+							<tm-pagination conf="paginationConf"></tm-pagination>
 			                  <!--数据列表/-->    
                         </div>
                         <!-- 数据表格 /-->
@@ -104,7 +104,8 @@
 			<table class="table table-bordered table-striped"  width="800px">
 		      	<tr>
 		      		<td>规格名称</td>
-		      		<td><input  class="form-control" placeholder="规格名称" >  </td>
+		      		<td>
+						<input  class="form-control" ng-model="entity.tbSpecification.specName" placeholder="规格名称" >  </td>
 		      	</tr>
 			 </table>				
 			 
@@ -133,7 +134,7 @@
 				            	<input ng-model="pojo.orders" class="form-control" placeholder="排序">
 				            </td>
 							<td>
-								<button type="button" class="btn btn-default" title="删除" ><i class="fa fa-trash-o"></i> 删除</button>
+								<button type="button" class="btn btn-default" ng-click="deleteTableRow($index)" title="删除" ><i class="fa fa-trash-o"></i> 删除</button>
 							</td>
                       </tr>
                     </tbody>
@@ -142,7 +143,7 @@
 			
 		</div>
 		<div class="modal-footer">						
-			<button class="btn btn-success" data-dismiss="modal" aria-hidden="true">保存</button>
+			<button class="btn btn-success" data-dismiss="modal" ng-click="save(entity)" aria-hidden="true">保存</button>
 			<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
 		</div>
 	  </div>

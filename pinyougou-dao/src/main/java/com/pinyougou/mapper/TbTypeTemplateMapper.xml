@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.pinyougou.mapper.TbSpecificationMapper" >
-  <resultMap id="BaseResultMap" type="com.pinyougou.pojo.TbSpecification" >
+<mapper namespace="com.pinyougou.mapper.TbTypeTemplateMapper" >
+  <resultMap id="BaseResultMap" type="com.pinyougou.pojo.TbTypeTemplate" >
     <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="spec_name" property="specName" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="spec_ids" property="specIds" jdbcType="VARCHAR" />
+    <result column="brand_ids" property="brandIds" jdbcType="VARCHAR" />
+    <result column="custom_attribute_items" property="customAttributeItems" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -64,15 +67,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, spec_name
+    id, name, spec_ids, brand_ids, custom_attribute_items
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pinyougou.pojo.TbSpecificationExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pinyougou.pojo.TbTypeTemplateExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from tb_specification
+    from tb_type_template
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -83,61 +86,85 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
-    from tb_specification
+    from tb_type_template
     where id = #{id,jdbcType=BIGINT}
   </select>
-
-
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from tb_specification
+    delete from tb_type_template
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.pinyougou.pojo.TbSpecificationExample" >
-    delete from tb_specification
+  <delete id="deleteByExample" parameterType="com.pinyougou.pojo.TbTypeTemplateExample" >
+    delete from tb_type_template
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.pinyougou.pojo.TbSpecification" >
-    <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
-      select LAST_INSERT_ID() as id
-    </selectKey>
-    insert into tb_specification (id, spec_name)
-    values (#{id,jdbcType=BIGINT}, #{specName,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="com.pinyougou.pojo.TbTypeTemplate" >
+    insert into tb_type_template (id, name, spec_ids, 
+      brand_ids, custom_attribute_items)
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{specIds,jdbcType=VARCHAR}, 
+      #{brandIds,jdbcType=VARCHAR}, #{customAttributeItems,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.pinyougou.pojo.TbSpecification" >
-    insert into tb_specification
+  <insert id="insertSelective" parameterType="com.pinyougou.pojo.TbTypeTemplate" >
+    insert into tb_type_template
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
       </if>
-      <if test="specName != null" >
-        spec_name,
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="specIds != null" >
+        spec_ids,
+      </if>
+      <if test="brandIds != null" >
+        brand_ids,
+      </if>
+      <if test="customAttributeItems != null" >
+        custom_attribute_items,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="specName != null" >
-        #{specName,jdbcType=VARCHAR},
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="specIds != null" >
+        #{specIds,jdbcType=VARCHAR},
+      </if>
+      <if test="brandIds != null" >
+        #{brandIds,jdbcType=VARCHAR},
+      </if>
+      <if test="customAttributeItems != null" >
+        #{customAttributeItems,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.pinyougou.pojo.TbSpecificationExample" resultType="java.lang.Integer" >
-    select count(*) from tb_specification
+  <select id="countByExample" parameterType="com.pinyougou.pojo.TbTypeTemplateExample" resultType="java.lang.Integer" >
+    select count(*) from tb_type_template
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update tb_specification
+    update tb_type_template
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.specName != null" >
-        spec_name = #{record.specName,jdbcType=VARCHAR},
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.specIds != null" >
+        spec_ids = #{record.specIds,jdbcType=VARCHAR},
+      </if>
+      <if test="record.brandIds != null" >
+        brand_ids = #{record.brandIds,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customAttributeItems != null" >
+        custom_attribute_items = #{record.customAttributeItems,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -145,25 +172,40 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update tb_specification
+    update tb_type_template
     set id = #{record.id,jdbcType=BIGINT},
-      spec_name = #{record.specName,jdbcType=VARCHAR}
+      name = #{record.name,jdbcType=VARCHAR},
+      spec_ids = #{record.specIds,jdbcType=VARCHAR},
+      brand_ids = #{record.brandIds,jdbcType=VARCHAR},
+      custom_attribute_items = #{record.customAttributeItems,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.pinyougou.pojo.TbSpecification" >
-    update tb_specification
+  <update id="updateByPrimaryKeySelective" parameterType="com.pinyougou.pojo.TbTypeTemplate" >
+    update tb_type_template
     <set >
-      <if test="specName != null" >
-        spec_name = #{specName,jdbcType=VARCHAR},
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="specIds != null" >
+        spec_ids = #{specIds,jdbcType=VARCHAR},
+      </if>
+      <if test="brandIds != null" >
+        brand_ids = #{brandIds,jdbcType=VARCHAR},
+      </if>
+      <if test="customAttributeItems != null" >
+        custom_attribute_items = #{customAttributeItems,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.pinyougou.pojo.TbSpecification" >
-    update tb_specification
-    set spec_name = #{specName,jdbcType=VARCHAR}
+  <update id="updateByPrimaryKey" parameterType="com.pinyougou.pojo.TbTypeTemplate" >
+    update tb_type_template
+    set name = #{name,jdbcType=VARCHAR},
+      spec_ids = #{specIds,jdbcType=VARCHAR},
+      brand_ids = #{brandIds,jdbcType=VARCHAR},
+      custom_attribute_items = #{customAttributeItems,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>
