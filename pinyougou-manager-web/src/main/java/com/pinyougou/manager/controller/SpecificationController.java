@@ -83,11 +83,11 @@ public class SpecificationController {
 	public Specification findOne(Long id){
 		return specificationService.findOne(id);		
 	}
-	
+
 	/**
 	 * 批量删除
 	 * @param ids
-	 * @return
+	 * @return Result
 	 */
 	@RequestMapping("/delete")
 	public Result delete(Long [] ids){
@@ -102,7 +102,7 @@ public class SpecificationController {
 	
 		/**
 	 * 查询+分页
-	 * @param brand
+	 * @param
 	 * @param page
 	 * @param rows
 	 * @return

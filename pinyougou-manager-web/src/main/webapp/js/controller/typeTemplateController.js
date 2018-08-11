@@ -2,7 +2,11 @@
 app.controller('typeTemplateController' ,function($scope,$controller   ,typeTemplateService){	
 	
 	$controller('baseController',{$scope:$scope});//继承
-	
+
+
+
+    $scope.brandList={data:[{id:1,text:'联想'},{id:2,text:'华为'},{id:3,text:'小米'}]};//品牌列表
+
     //读取列表数据绑定到表单中  
 	$scope.findAll=function(){
 		typeTemplateService.findAll().success(
