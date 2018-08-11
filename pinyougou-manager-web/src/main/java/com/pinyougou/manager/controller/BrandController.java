@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/brand")
@@ -75,16 +76,25 @@ public class BrandController {
 
     //修改数据之保存功能的实现
     @RequestMapping("/update")
-    public Result update(@RequestBody TbBrand tbBrand){
+    public Result update(@RequestBody TbBrand tbBrand) {
 
         try {
             //注意修改的方法为updatByPrimaryKey(TbBrand tbBrand)
             brandService.update(tbBrand);
-            return new Result(true,"修改成功");
+            return new Result(true, "修改成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(false,"修改失败");
+            return new Result(false, "修改失败");
         }
+    }
+
+
+    //查询所有品牌凭借成为select2的数据格式[{id:1,text:'联想'},{id:2,text:'华为'},{id:3,text:'小米'}]
+    @RequestMapping("/selectOptionList")
+    public List<Map> selectOptionList() {
+        List<Map> maps = brandService.selectOptionList();
+        return maps;
+
     }
 
 

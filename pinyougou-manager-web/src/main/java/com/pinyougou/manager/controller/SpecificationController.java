@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
+
 /**
  * controller
  * @author Administrator
@@ -111,5 +113,11 @@ public class SpecificationController {
 	public PageResult search(@RequestBody TbSpecification specification, int page, int rows  ){
 		return specificationService.findPage(specification, page, rows);		
 	}
-	
+
+	@RequestMapping("/selectSpecifications")
+	public List<Map> selectSpecifications(){
+		return specificationService.selectSpecifications();
+	}
+
+
 }

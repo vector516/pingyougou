@@ -1,4 +1,4 @@
-app.controller('baseController' ,function($scope){
+app.controller('baseController', function ($scope) {
 
 
 
@@ -20,10 +20,10 @@ app.controller('baseController' ,function($scope){
     $scope.updateSelection = function ($event, id) {
 
         //子选控制反选
-        if($(".checkOne").length==$(".checkOne:checked").length){
-            $("#selall").prop("checked",true);
-        }else{
-            $("#selall").prop("checked",false);
+        if ($(".checkOne").length == $(".checkOne:checked").length) {
+            $("#selall").prop("checked", true);
+        } else {
+            $("#selall").prop("checked", false);
         }
 
         //点击时将选中的id放入数组中
@@ -45,10 +45,28 @@ app.controller('baseController' ,function($scope){
     $(function () {
         //全选控制子选
         $("#selall").click(function () {
-            $(".checkOne").prop("checked",$("#selall").prop("checked"));
+            $(".checkOne").prop("checked", $("#selall").prop("checked"));
         })
 
     })
+
+
+    ////提取json字符串数据中某个属性，返回拼接字符串 逗号分隔
+    $scope.jsonToString = function (jsonString, key) {
+        var json = JSON.parse(jsonString);
+
+        var value="";
+        for(var i=0;i<json.length;i++){
+            if(i>0){
+                value+=",";
+            }
+            value+=json[i][key];
+        }
+
+       return value;
+    }
+
+
 
 
 

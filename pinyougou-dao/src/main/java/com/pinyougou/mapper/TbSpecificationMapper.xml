@@ -87,6 +87,11 @@
     where id = #{id,jdbcType=BIGINT}
   </select>
 
+  <!--实现添加规格下拉列表的回显,构建select2的数据格式,主要是id和text-->
+  <select id="selectSpecifications" resultType="java.util.Map">
+    select id,spec_name as text from tb_specification
+  </select>
+  
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from tb_specification

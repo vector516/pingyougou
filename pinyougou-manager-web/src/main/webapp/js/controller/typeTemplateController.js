@@ -1,11 +1,37 @@
  //控制层 
-app.controller('typeTemplateController' ,function($scope,$controller   ,typeTemplateService){	
+app.controller('typeTemplateController' ,function($scope,$controller,typeTemplateService,brandService,specificationService){
 	
 	$controller('baseController',{$scope:$scope});//继承
 
+	//品牌列表的回显功能
+    // $scope.brandList={data:[{id:1,text:'联想'},{id:2,text:'华为'},{id:3,text:'小米'}]};//品牌列表
+    $scope.brandList={data:[]};
+    $scope.findBrandList=function(){
+		brandService.selectOptionList().success(
+			function (response) {
+                $scope.brandList={data:response};
+        });
+	}
 
+	//回显规格数据下拉列表
+    $scope.specificationList={data:[]};
+    $scope.findSpecificationList=function(){
+        specificationService.selectSpecifications().success(
+        	function (response) {
+                $scope.specificationList={data:response};
+            }
+		)
+	}
 
-    $scope.brandList={data:[{id:1,text:'联想'},{id:2,text:'华为'},{id:3,text:'小米'}]};//品牌列表
+	//新增一行扩展属性的方法
+	$scope.addTableRow=function(){
+    	$scope.entity.customAttributeItems.push({})
+	}
+
+	$scope.deleteTableRow=function(index){
+    	$scope.entity.customAttributeItems.splice(index,1);
+	}
+
 
     //读取列表数据绑定到表单中  
 	$scope.findAll=function(){
@@ -30,7 +56,12 @@ app.controller('typeTemplateController' ,function($scope,$controller   ,typeTemp
 	$scope.findOne=function(id){				
 		typeTemplateService.findOne(id).success(
 			function(response){
-				$scope.entity= response;					
+				$scope.entity= response;
+				//将查出来的字符串转换为json对象
+                $scope.entity.brandIds=JSON.parse($scope.entity.brandIds);
+                $scope.entity.specIds=JSON.parse($scope.entity.specIds);
+                $scope.entity.customAttributeItems=JSON.parse($scope.entity.customAttributeItems);
+
 			}
 		);				
 	}

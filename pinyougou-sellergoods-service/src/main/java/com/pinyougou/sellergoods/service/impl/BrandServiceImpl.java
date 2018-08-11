@@ -11,6 +11,7 @@ import com.pinyougou.sellergoods.service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BrandServiceImpl implements BrandService {
@@ -87,5 +88,11 @@ public class BrandServiceImpl implements BrandService {
 //        //特别注意update的用法需要new XxxExample();
 //        brandMapper.updateByExampleSelective(tbBrand,tbBrandExample);
         brandMapper.updateByPrimaryKey(tbBrand);
+    }
+
+    @Override
+    public List<Map> selectOptionList() {
+        List<Map> maps = brandMapper.selectOptionList();
+        return maps;
     }
 }

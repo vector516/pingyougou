@@ -4,6 +4,7 @@ import com.pingyougou.entity.PageResult;
 import com.pinyougou.pojo.TbBrand;
 
 import java.util.List;
+import java.util.Map;
 
 public interface BrandService {
     public List<TbBrand> findAll();
@@ -21,4 +22,6 @@ public interface BrandService {
     TbBrand findOne(Long id);
 
     void update(TbBrand tbBrand);
+
+    List<Map> selectOptionList();
 }

@@ -25,6 +25,8 @@
 
 	<script type="text/javascript" src="../js/base_pagination.js"></script>
     <script type="text/javascript" src="../js/service/typeTemplateService.js"></script>
+	<script type="text/javascript"src="../js/service/brandService.js"></script>
+	<script type="text/javascript"src="../js/service/specificationService.js"></script>
 	<script type="text/javascript" src="../js/controller/baseController.js"></script>
     <script type="text/javascript" src="../js/controller/typeTemplateController.js"></script>
 
@@ -38,9 +40,8 @@
 
 </head>
 
-<body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="typeTemplateController" >
+<body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="typeTemplateController" ng-init="findBrandList();findSpecificationList()">
   <!-- .box-body -->
-                
                     <div class="box-header with-border">
                         <h3 class="box-title">商品类型模板管理</h3>
                     </div>
@@ -54,16 +55,15 @@
                             <div class="pull-left">
                                 <div class="form-group form-inline">
                                     <div class="btn-group">
-                                        <button type="button" class="btn btn-default" title="新建" data-toggle="modal" data-target="#editModal" ><i class="fa fa-file-o"></i> 新建</button>
-                                        <button type="button" class="btn btn-default" title="删除"><i class="fa fa-trash-o"></i> 删除</button>
-                                       
+                                        <button type="button" class="btn btn-default" title="新建" data-toggle="modal"  ng-click="entity={customAttributeItems:[]}"  data-target="#editModal" ><i class="fa fa-file-o"></i> 新建</button>
+                                        <button type="button" class="btn btn-default" ng-click="dele()" title="删除"><i class="fa fa-trash-o"></i> 删除</button>
                                         <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
                                     </div>
                                 </div>
                             </div>
                             <div class="box-tools pull-right">
                                 <div class="has-feedback">
-							                  分类模板名称：<input  >									
+							                  分类模板名称：<input>
 									<button class="btn btn-default">查询</button>                                    
                                 </div>
                             </div>
@@ -74,7 +74,7 @@
 			                      <thead>
 			                          <tr>
 			                              <th class="" style="padding-right:0px">
-			                                  <input id="selall" type="checkbox" class="icheckbox_square-blue">
+			                                  <input id="selall"  type="checkbox"   class="icheckbox_square-blue">
 			                              </th> 
 										  <th class="sorting_asc">模板ID</th>
 									      <th class="sorting">分类模板名称</th>
@@ -86,14 +86,14 @@
 			                      </thead>
 			                      <tbody>
 			                          <tr ng-repeat="entity in list">
-			                              <td><input  type="checkbox"></td>
+			                              <td><input  class="checkOne" type="checkbox" ng-click="updateSelection($event,entity.id)"></td>
 										  <td>{{entity.id}}</td>
 										  <td>{{entity.name}}</td>
-										  <td>{{entity.brandIds}}</td>
-										  <td>{{entity.specIds}}</td>
-										  <td>{{entity.customAttributeItems}}</td>
+										  <td>{{jsonToString(entity.brandIds,"text")}}</td>
+										  <td>{{jsonToString(entity.specIds,"text")}}</td>
+										  <td>{{jsonToString(entity.customAttributeItems,"text")}}</td>
 										  <td class="text-center">
-		                                 	  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal" >修改</button>                                           
+		                                 	  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" ng-click="findOne(entity.id)" data-target="#editModal" >修改</button>
 		                                  </td>
 			                          </tr>
 			                      </tbody>
@@ -120,6 +120,10 @@
 		<div class="modal-body">							
 			
 			<table class="table table-bordered table-striped"  width="800px">
+				<tr>
+					<td>模板名称</td>
+					<td><input ng-model="entity.name"class="form-control"placeholder="模板名称"></td>
+				</tr>
 		      	<tr>
 		      		<td>商品类型</td>
 		      		<td><input  class="form-control" placeholder="商品类型">  </td>
@@ -127,13 +131,13 @@
 		      	<tr>
 		      		<td>关联品牌</td>
 		      		<td>
-		      			<input select2 select2-model="entity.brandIds" config="brandList"  multiple placeholder="选择品牌（可多选）" class="form-control" type="text"/>
+		      			<input select2 select2-model="entity.brandIds"  config="brandList"  multiple placeholder="选择品牌（可多选）" class="form-control" type="text"/>
 		      		</td>
 		      	</tr>
 		      	<tr>
 		      		<td>关联规格</td>
 		      		<td>
-		<input select2 select2-model="entity.specIds" config="options['specification']" multiple placeholder="选择规格（可多选）" class="form-control" type="text"/>
+						<input select2 select2-model="entity.specIds" config="specificationList" multiple placeholder="选择规格（可多选）" class="form-control" type="text"/>
 		      		</td>
 		      	</tr>	
 		      	
@@ -141,7 +145,7 @@
 		      		<td>扩展属性</td>
 		      		<td>
 		      			<div class="btn-group">
-                             <button type="button" class="btn btn-default" title="新增扩展属性"><i class="fa fa-file-o"></i> 新增扩展属性</button>
+                             <button type="button" class="btn btn-default"  ng-click="addTableRow()"  title="新增扩展属性"><i class="fa fa-file-o"></i> 新增扩展属性</button>
                                                                     
                         </div>
 						<table class="table table-bordered table-striped"  width="800px">
@@ -153,27 +157,22 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
+								<tr ng-repeat="pojo in entity.customAttributeItems">
 									<td><input type="checkbox" class="icheckbox_square-blue" ></td>
-									<td><input class="form-control" placeholder="属性名称" ></td>
-									<td><button type="button" class="btn btn-default" title="删除"><i class="fa fa-trash-o"></i> 删除</button></td>
-								</tr>
-								<tr>
-									<td><input type="checkbox" class="icheckbox_square-blue" ></td>
-									<td><input class="form-control" placeholder="属性名称" ></td>
-									<td><button type="button" class="btn btn-default" title="删除"><i class="fa fa-trash-o"></i> 删除</button></td>
+									<td><input class="form-control" ng-model="pojo.text" placeholder="属性名称" ></td>
+									<td><button type="button" class="btn btn-default" ng-click="deleteTableRow($index)" title="删除"><i class="fa fa-trash-o"></i> 删除</button></td>
 								</tr>
 							</tbody>
 						</table>	
            
 		      		</td>
-		      	</tr>	
-		      	      
+		      	</tr>
+
 			 </table>				
 			
 		</div>
 		<div class="modal-footer">						
-			<button class="btn btn-success" data-dismiss="modal" aria-hidden="true">保存</button>
+			<button class="btn btn-success" data-dismiss="modal" ng-click="save()" aria-hidden="true">保存</button>
 			<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
 		</div>
 	  </div>
