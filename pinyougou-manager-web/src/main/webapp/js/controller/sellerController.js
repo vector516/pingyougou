@@ -75,5 +75,20 @@ app.controller('sellerController' ,function($scope,$controller   ,sellerService)
 			}			
 		);
 	}
+
+
+	//商家审核更新商家状态的方法
+	$scope.updateStatus=function (id,status) {
+		sellerService.updateStatus(id,status).success(
+			function (response) {
+                if(response.success){
+                    $scope.reloadList();//刷新列表
+                }else{
+                    alert("失败");
+                }
+            }
+		)
+    }
+
     
 });	
