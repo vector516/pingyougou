@@ -27,7 +27,7 @@ public class PayLogController {
 	 * @return
 	 */
 	@RequestMapping("/findAll")
-	public List<TbPayLog> findAll(){			
+	public List<TbPayLog> findAll(){
 		return payLogService.findAll();
 	}
 	

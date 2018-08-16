@@ -27,7 +27,7 @@ public class TypeTemplateController {
 	 * @return
 	 */
 	@RequestMapping("/findAll")
-	public List<TbTypeTemplate> findAll(){			
+	public List<TbTypeTemplate> findAll(){
 		return typeTemplateService.findAll();
 	}
 	

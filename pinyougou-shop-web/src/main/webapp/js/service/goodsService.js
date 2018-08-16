@@ -28,5 +28,11 @@ app.service('goodsService',function($http){
 	//搜索
 	this.search=function(page,rows,searchEntity){
 		return $http.post('../goods/search.do?page='+page+"&rows="+rows, searchEntity);
-	}    	
+	}
+
+    //下架
+    this.updateMaketable=function (ids,status) {
+        return $http.post('../goods/updateMaketable.do?ids='+ids+"&status="+status);
+    }
+
 });

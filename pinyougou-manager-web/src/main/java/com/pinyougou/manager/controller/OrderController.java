@@ -27,7 +27,7 @@ public class OrderController {
 	 * @return
 	 */
 	@RequestMapping("/findAll")
-	public List<TbOrder> findAll(){			
+	public List<TbOrder> findAll(){
 		return orderService.findAll();
 	}
 	

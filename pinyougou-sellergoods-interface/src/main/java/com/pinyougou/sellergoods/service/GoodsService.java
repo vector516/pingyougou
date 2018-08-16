@@ -1,6 +1,7 @@
 package com.pinyougou.sellergoods.service;
 
 import com.pingyougou.entity.PageResult;
+import com.pinyougou.pojo.Goods;
 import com.pinyougou.pojo.TbGoods;
 
 import java.util.List;
@@ -28,13 +29,13 @@ public interface GoodsService {
 	/**
 	 * 增加
 	*/
-	public void add(TbGoods goods);
+	public void add(Goods goods);
 	
 	
 	/**
 	 * 修改
 	 */
-	public void update(TbGoods goods);
+	public void update(Goods goods);
 	
 
 	/**
@@ -42,7 +43,7 @@ public interface GoodsService {
 	 * @param id
 	 * @return
 	 */
-	public TbGoods findOne(Long id);
+	public Goods findOne(Long id);
 	
 	
 	/**
@@ -58,5 +59,10 @@ public interface GoodsService {
 	 * @return
 	 */
 	public PageResult findPage(TbGoods goods, int pageNum, int pageSize);
-	
+
+    void updateStatus(Long[] ids, String status);
+
+	void deleteByLogic(Long[] ids);
+
+    void updateMaketable(Long[] ids, String status);
 }

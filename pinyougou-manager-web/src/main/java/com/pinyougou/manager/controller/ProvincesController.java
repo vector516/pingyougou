@@ -27,7 +27,7 @@ public class ProvincesController {
 	 * @return
 	 */
 	@RequestMapping("/findAll")
-	public List<TbProvinces> findAll(){			
+	public List<TbProvinces> findAll(){
 		return provincesService.findAll();
 	}
 	

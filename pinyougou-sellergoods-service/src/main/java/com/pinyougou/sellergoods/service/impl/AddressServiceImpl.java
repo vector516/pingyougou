@@ -7,7 +7,6 @@ import com.pingyougou.entity.PageResult;
 import com.pinyougou.mapper.TbAddressMapper;
 import com.pinyougou.pojo.TbAddress;
 import com.pinyougou.pojo.TbAddressExample;
-import com.pinyougou.pojo.TbAddressExample.Criteria;
 import com.pinyougou.sellergoods.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -85,7 +84,7 @@ public class AddressServiceImpl implements AddressService {
 		PageHelper.startPage(pageNum, pageSize);
 		
 		TbAddressExample example=new TbAddressExample();
-		Criteria criteria = example.createCriteria();
+		TbAddressExample.Criteria criteria = example.createCriteria();
 		
 		if(address!=null){			
 						if(address.getUserId()!=null && address.getUserId().length()>0){

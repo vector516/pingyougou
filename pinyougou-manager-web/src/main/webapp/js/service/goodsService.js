@@ -25,8 +25,23 @@ app.service('goodsService',function($http){
 	this.dele=function(ids){
 		return $http.get('../goods/delete.do?ids='+ids);
 	}
+    //逻辑删除
+    this.delete=function(ids){
+        return $http.get('../goods/deleteByLogic.do?ids='+ids);
+    }
+
+
 	//搜索
 	this.search=function(page,rows,searchEntity){
 		return $http.post('../goods/search.do?page='+page+"&rows="+rows, searchEntity);
-	}    	
+	}
+
+	//更新商品审核状态
+	this.updateStatus=function(ids,status){
+		return $http.post('../goods/updateStatus.do?ids='+ids+"&status="+status);
+	}
+
+
+
+
 });

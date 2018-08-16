@@ -1,4 +1,4 @@
-package com.pinyougou.manager.controller;
+package com.pinyougou.shop.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.pingyougou.entity.PageResult;
@@ -77,6 +77,16 @@ public class GoodsController {
      */
     @RequestMapping("/update")
     public Result update(@RequestBody Goods goods) {
+        //校验是否是当前商家的id
+        Goods goods2 = goodsService.findOne(goods.getGoods().getId());
+        //获取当前登录的商家ID
+        String sellerId = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        //如果传递过来的商家ID并不是当前登录的用户的ID,则属于非法操作
+        if(!goods2.getGoods().getSellerId().equals(sellerId) ||  !goods.getGoods().getSellerId().equals(sellerId) ){
+            return new Result(false, "操作非法");
+        }
+
         try {
             goodsService.update(goods);
             return new Result(true, "修改成功");
@@ -114,26 +124,6 @@ public class GoodsController {
         }
     }
 
-
-    /**
-     * 逻辑删除
-     *
-     * @param ids
-     * @return
-     */
-    @RequestMapping("/deleteByLogic")
-    public Result deleteByLogic(Long[] ids) {
-        try {
-            goodsService.deleteByLogic(ids);
-            return new Result(true, "删除成功");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new Result(false, "删除失败");
-        }
-    }
-
-
-
     /**
      * 查询+分页
      *
@@ -144,21 +134,25 @@ public class GoodsController {
      */
     @RequestMapping("/search")
     public PageResult search(@RequestBody TbGoods goods, int page, int rows) {
+        //获取商家的Id
+        String sellerId = SecurityContextHolder.getContext().getAuthentication().getName();
+        //添加查询条件
+        goods.setSellerId(sellerId);
+
         return goodsService.findPage(goods, page, rows);
     }
 
-    @RequestMapping("/updateStatus")
-    public Result updateStatus(Long[] ids,String status){
 
+    @RequestMapping("/updateMaketable")
+    public Result updateMaketable(Long[] ids,String status){
         try {
-            goodsService.updateStatus(ids,status);
-            return new Result(true,"审核成功");
+             goodsService.updateMaketable(ids,status);
+            return new Result(true,"修改成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(false,"审核失败");
+            return new Result(false,"修改失败");
         }
 
     }
-
 
 }
