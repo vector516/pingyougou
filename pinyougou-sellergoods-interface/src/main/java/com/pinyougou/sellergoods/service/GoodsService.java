@@ -3,6 +3,7 @@ package com.pinyougou.sellergoods.service;
 import com.pingyougou.entity.PageResult;
 import com.pinyougou.pojo.Goods;
 import com.pinyougou.pojo.TbGoods;
+import com.pinyougou.pojo.TbItem;
 
 import java.util.List;
 /**
@@ -65,4 +66,13 @@ public interface GoodsService {
 	void deleteByLogic(Long[] ids);
 
     void updateMaketable(Long[] ids, String status);
+
+	/**
+	 * 根据商品ID和状态查询Item表信息---->查询已审核的商品
+	 * @param goodsId
+	 * @param status
+	 * @return
+	 */
+	public List<TbItem> findItemListByGoodsIdandStatus(Long[] goodsIds, String status );
+
 }

@@ -11,11 +11,10 @@ import com.pinyougou.pojo.*;
 import com.pinyougou.pojo.TbGoodsExample.Criteria;
 import com.pinyougou.sellergoods.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 服务实现层
@@ -74,7 +73,7 @@ public class GoodsServiceImpl implements GoodsService {
         goodsMapper.insert(goods.getGoods());
 
 
-        int x=1/0;
+//        int x=1/0;
 
 
         //设置商品详情关联商品--->使用selectKey返回了保存的主键id
@@ -292,6 +291,18 @@ public class GoodsServiceImpl implements GoodsService {
             tbGoods.setIsMarketable(status);
             goodsMapper.updateByPrimaryKey(tbGoods);
         }
+    }
+
+
+    //查询已审核的商品的sku列表
+    @Override
+    public List<TbItem> findItemListByGoodsIdandStatus(Long[] goodsIds, String status) {
+        TbItemExample example = new TbItemExample();
+        TbItemExample.Criteria criteria = example.createCriteria();
+        criteria.andGoodsIdIn(Arrays.asList(goodsIds));
+        criteria.andStatusEqualTo(status);
+
+        return itemMapper.selectByExample(example);
     }
 
 }
