@@ -7,17 +7,17 @@ public interface ItemSearchService {
 
 
     /**
+     * 将数据导入solr服务器
+     * @param list
+     */
+    public void importList(List list);
+
+    /**
      * 搜索
      * @param keywords
      * @return
      */
     public Map<String,Object> search(Map searchMap);
-
-    /**
-     * 将数据导入solr服务器
-     * @param list
-     */
-    public void importList(List list);
 
     /**
      * 商品删除同步到solr

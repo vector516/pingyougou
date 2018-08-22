@@ -1,20 +1,23 @@
 package com.pinyougou.page.service.impl;
 
-import com.alibaba.dubbo.config.annotation.Service;
 import com.pinyougou.mapper.TbGoodsDescMapper;
 import com.pinyougou.mapper.TbGoodsMapper;
 import com.pinyougou.mapper.TbItemCatMapper;
 import com.pinyougou.mapper.TbItemMapper;
 import com.pinyougou.page.service.ItemPageService;
-import com.pinyougou.pojo.*;
+import com.pinyougou.pojo.TbGoods;
+import com.pinyougou.pojo.TbGoodsDesc;
+import com.pinyougou.pojo.TbItem;
+import com.pinyougou.pojo.TbItemExample;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
 
+import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.HashMap;
@@ -71,7 +74,7 @@ public class ItemPageServiceImpl implements ItemPageService {
 
 
             //4.SKU列表
-            TbItemExample example=new TbItemExample();
+            TbItemExample example = new TbItemExample();
             TbItemExample.Criteria criteria = example.createCriteria();
             criteria.andStatusEqualTo("1");//状态为有效
             criteria.andGoodsIdEqualTo(goodsId);//指定SPU ID
@@ -94,5 +97,18 @@ public class ItemPageServiceImpl implements ItemPageService {
         }
 
 
+    }
+
+    @Override
+    public boolean deleteItemHtml(Long[] goodsIds) {
+        try {
+            for (Long goodsId : goodsIds) {
+                new File(pagedir + goodsId + ".html").delete();
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
