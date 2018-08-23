@@ -27,6 +27,10 @@
         <module>pinyougou-page-web</module>
         <module>springjms-producer</module>
         <module>springjms_consumer</module>
+        <module>itcast_sms</module>
+        <module>pinyougou-user-interface</module>
+        <module>pinyougou-user-service</module>
+        <module>pinyougou-user-web</module>
     </modules>
     <packaging>pom</packaging>
 
