@@ -7,7 +7,6 @@ import com.pinyougou.cart.service.impl.CartService;
 import com.pinyougou.pojogroup.Cart;
 import com.pinyougou.utils.CookieUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -80,7 +79,11 @@ public class CartController {
      * @return
      */
     @RequestMapping("/addGoodsToCartList")
+//    @CrossOrigin(origins="http://localhost:9105",allowCredentials="true")
     public Result addGoodsToCartList(Long itemId, Integer num) {
+
+
+
         //得到登陆人账号,判断当前是否有人登陆
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         System.out.println("当前登录用户：" + username);
@@ -99,7 +102,11 @@ public class CartController {
                 cartService.saveCartListToRedis(username, carts);
             }
 
+            //解决ajax跨域访问的问题($http)
+            response.setHeader("Access-Control-Allow-Origin", "http://localhost:9105");
+            response.setHeader("Access-Control-Allow-Credentials", "true");
             return new Result(true, "添加成功");
+
         } catch (Exception e) {
             e.printStackTrace();
             return new Result(false, "添加失败");

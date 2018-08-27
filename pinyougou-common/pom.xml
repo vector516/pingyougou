@@ -38,6 +38,14 @@
             <artifactId>servlet-api</artifactId>
             <scope>provided</scope>
         </dependency>
+
+
+
+        <!--HTTP协议的客户端编程工具包-->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
     </dependencies>
 
 
